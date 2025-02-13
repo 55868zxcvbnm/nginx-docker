@@ -9,79 +9,72 @@ Para descargar la imagen de Oracle Database, necesitas una cuenta en Oracle Cont
 3. Acepta los términos de licencia de Oracle Database en la sección "Database".
 4. Verifica tu cuenta a través del correo electrónico recibido.
 
-## 2️⃣ Iniciar Sesión en el Registro de Oracle
+## 2️⃣ Crear la carpeta del Proyecto
+Crear una carpeta en el escritorio, la cual contendra los contenedores que se utilizaran, la misma carpeta ejecutar o abrir con terminal y dentro de esta carpeta en terminal ejecutar los siguientes pasos.
+
+## 3️⃣ Iniciar Sesión en el Registro de Oracle
 
 Antes de descargar la imagen de Oracle Database, necesitas iniciar sesión en Docker con tus credenciales de Oracle:
 
 ```sh
 docker login container-registry.oracle.com
+```
+
 Introduce tu usuario y contraseña de Oracle cuando te lo solicite.
-```
 
-## 3️⃣ Descargar la Imagen de Oracle Database (No nesesario para este proceso)
-Verifica las versiones disponibles en Oracle Container Registry. Luego, descarga la imagen correcta:
-
-```sh
-docker pull container-registry.oracle.com/database/free:latest
-```
-Alternativamente, si deseas la versión Enterprise:
-```sh
-docker pull container-registry.oracle.com/database/enterprise:latest
-```
 ## 4️⃣ Crear un Archivo docker-compose.yml
-Crea un archivo llamado docker-compose.yml en tu proyecto con el siguiente contenido:
-
+En el terminal donde se encuentra el proyecto ejecutar el siguiente comando:
+```sh
+code .
+```
+Este comando abrira el editor de 'VS CODE', una vez en vs code crear un archivo llamado docker-compose.yml y agregar el siguiente contenido:
 ```yaml
-# Descarga y ejecuta un contenedor con Nginx.
-# Mapea el puerto 8080 de la máquina al puerto 80 del contenedor.
-# El contenedor de Nginx mostrará el archivo index.html desde tu directorio local.
-# Permite actualizar el HTML sin reiniciar el contenedor gracias a los volúmenes.
+  services:
 
-    services:
-    nginx:
-      image: nginx:latest
-      container_name: mi_nginx
-      ports:
-        - "8080:80"
-      volumes:
-        - ./index.html:/usr/share/nginx/html/index.html
-      networks:
-        - app_network  # Se une a la red personalizada
-
-    oracle:
-      image: container-registry.oracle.com/database/enterprise:latest
-      container_name: oracle_db
-      restart: always
-      ports:
-        - "1521:1521"  # Puerto de Oracle para conexiones SQL*Net
-        - "5500:5500"  # Puerto de Oracle EM Express
-      environment:
-        - ORACLE_SID=ORCLCDB
-        - ORACLE_PDB=ORCLPDB1 #Nombre del servicio
-        - ORACLE_PWD=${ORACLE_PWD}  # Se usa un archivo .env para seguridad
-        - ORACLE_CHARACTERSET=AL32UTF8
-      volumes:
-        - oracle_data:/opt/oracle/oradata
-      networks:
-        - app_network  # Se une a la red personalizada
-
+  nginx:
+    image: nginx:latest
+    container_name: mi_nginx
+    ports:
+      - "8080:80"
     volumes:
-    oracle_data:
-    nginx_data:  # Agregamos un volumen para posibles archivos de Nginx
-
+      - ./index.html:/usr/share/nginx/html/index.html
     networks:
-    app_network:  # Red para comunicación entre servicios
-      driver: bridge
+      - app_network  # Se une a la red personalizada
+
+  oracle:
+    image: container-registry.oracle.com/database/enterprise:latest
+    container_name: oracle_db
+    restart: always
+    ports:
+      - "1521:1521"  # Puerto de Oracle para conexiones SQL*Net
+      - "5500:5500"  # Puerto de Oracle EM Express
+    environment:
+      - ORACLE_SID=ORCLCDB
+      - ORACLE_PDB=ORCLPDB1 #Nombre del servicio
+      - ORACLE_PWD=${ORACLE_PWD}  # Se usa un archivo .env para seguridad
+      - ORACLE_CHARACTERSET=AL32UTF8
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    networks:
+      - app_network  # Se une a la red personalizada
+
+  volumes:
+  oracle_data:
+  nginx_data:  # Agregamos un volumen para posibles archivos de Nginx
+
+  networks:
+  app_network:  # Red para comunicación entre servicios
+    driver: bridge
 ```
 ## 5️⃣ Crear un Archivo .env para Variables de Entorno
-Crea un archivo .env en la misma carpeta del docker-compose.yml,
+Crea un archivo .env en la misma carpeta del proyecto,
 dentro del archivo añadir la siguiente línea:
 
 ```sh
 ORACLE_PWD=tu_contraseña_segura
 ```
 ## 6️⃣ Iniciar los Contenedores
-Ejecuta el siguiente comando para levantar los servicios:
+Ejecuta el siguiente comando en el terminal donde se encuentra el proyecto para levantar los servicios:
 ```sh
 docker-compose up -d
 ```
@@ -89,10 +82,10 @@ Para verificar que los contenedores están corriendo:
 ```sh
 docker ps
 ```
-# Si deseas Acceder a la basee de datos directamente desde el contenedor:
-
+# Acceder a la basee de datos directamente desde el contenedor:
+Ejecutar el siguiente comando desde el terminal:
 ```sh
-docker exec -it oracle_db sqlplus sys/contraseña-del-archivo-env as sysdba
+docker exec -it oracle_db sqlplus sys/MiSuperClaveSegura as sysdba
 ```
 
 ## 1️⃣ Verificar las bases de datos disponibles
@@ -124,7 +117,7 @@ ALTER USER user QUOTA UNLIMITED ON USERS;
 ## 4️⃣ Conectarse con el nuevo usuario
 Sal de SQL*Plus (contenedor) con EXIT; luego conéctate con:
 ```sh
-docker exec -it oracle_db sqlplus usuario_creado/password@ORCLPDB1
+docker exec -it oracle_db sqlplus user/password@ORCLPDB1
 ```
 
 # Crear una tabla en la base de datos dentro el contenedor
@@ -191,7 +184,7 @@ crea una nueva conexión con los siguientes parámetros (revisar estos datos en 
 Host: localhost
 Puerto: 1521
 Nombre del servicio: ORCLPDB1
-Usuario: user_creado
+Usuario: user
 ```
 
 # Iniciar, Detener y Eliminar los Contenedores
