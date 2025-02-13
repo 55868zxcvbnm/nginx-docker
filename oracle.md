@@ -74,8 +74,8 @@ Crea un archivo `.env` en la misma carpeta del proyecto,
 dentro del archivo añadir la siguiente línea:
 
 ```sh
-ORACLE_PWD=tu_contraseña_segura
-```
+ORACLE_PWD=MiSuperClaveSegura
+
 ## 6️⃣ Iniciar los Contenedores
 Ejecuta el siguiente comando en el `terminal` del proyecto para levantar los servicios definidos en el archivo `docker-compose.yml`:
 ```sh
