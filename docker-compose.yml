@@ -1,0 +1,40 @@
+# Descarga y ejecuta un contenedor con Nginx.
+# Mapea el puerto 8080 de la máquina al puerto 80 del contenedor.
+# El contenedor de Nginx mostrará el archivo index.html desde tu directorio local.
+# Permite actualizar el HTML sin reiniciar el contenedor gracias a los volúmenes.
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: mi_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+    networks:
+      - app_network  # Se une a la red personalizada
+
+  oracle:
+    image: container-registry.oracle.com/database/enterprise:latest
+    container_name: oracle_db
+    restart: always
+    ports:
+      - "1521:1521"  # Puerto de Oracle para conexiones SQL*Net
+      - "5500:5500"  # Puerto de Oracle EM Express
+    environment:
+      - ORACLE_SID=ORCLCDB
+      - ORACLE_PDB=ORCLPDB1 #Nombre del servicio
+      - ORACLE_PWD=${ORACLE_PWD}  # Se usa un archivo .env para seguridad
+      - ORACLE_CHARACTERSET=AL32UTF8
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    networks:
+      - app_network  # Se une a la red personalizada
+
+volumes:
+  oracle_data:
+  nginx_data:  # Agregamos un volumen para posibles archivos de Nginx
+
+networks:
+  app_network:  # Red para comunicación entre servicios
+    driver: bridge

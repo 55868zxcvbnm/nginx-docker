@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración Avanzada de Nginx</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Encabezado principal */
+        h1 {
+            color: #0078D7;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        /* Subtítulos */
+        h2 {
+            color: #0056b3;
+            font-size: 22px;
+            border-left: 4px solid #0078D7;
+            padding-left: 10px;
+            margin-top: 20px;
+        }
+
+        /* Párrafos */
+        p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* Cita inspiradora */
+        .quote {
+            margin-top: 30px;
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            padding: 15px;
+            background: #eef2f7;
+            border-left: 4px solid #0078D7;
+            border-radius: 5px;
+        }
+
+        /* Pie de página */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Configuración Avanzada de Nginx</h1>
+        <p>En esta sección, explicaremos cómo configurar Nginx para diferentes escenarios y necesidades.</p>
+
+        <h1>¿Qué es Nginx?</h1>
+        <p>Nginx es un servidor web de alto rendimiento, ampliamente utilizado para servir páginas estáticas, actuar como proxy
+        inverso, balanceador de carga y más. Es una alternativa ligera y eficiente a servidores como Apache HTTP Server.
+        
+        En este caso, Nginx se usará dentro de un contenedor Docker, lo que permite aislar la configuración y evitar conflictos
+        con otras aplicaciones en el sistema operativo.</p>
+
+        <h2>🔒 Redireccionamiento de HTTP a HTTPS</h2>
+        <p>Es importante redireccionar todo el tráfico HTTP a HTTPS para garantizar la seguridad de la conexión.</p>
+
+        <h2>📜 Certificados SSL</h2>
+        <p>La configuración de los certificados SSL es crucial para habilitar conexiones seguras. Asegúrate de usar
+            certificados válidos y configurarlos correctamente.</p>
+
+        <h2>📂 Límite de tamaño de carga de archivos</h2>
+        <p>Para evitar problemas con cargas de archivos grandes, puedes establecer un límite en el tamaño máximo
+            permitido.</p>
+
+        <h2>⚡ Configuración de Gzip para compresión</h2>
+        <p>La compresión Gzip ayuda a reducir el tamaño de los archivos enviados desde el servidor, mejorando así la
+            velocidad de carga de la página.</p>
+
+        <h2>📁 Configuración de caché de archivos estáticos</h2>
+        <p>Configurar el almacenamiento en caché de archivos estáticos como imágenes y scripts puede mejorar
+            significativamente el rendimiento del sitio web.</p>
+
+        <h2>⚠️ Manejo de errores</h2>
+        <p>Personalizar las páginas de error permite una mejor experiencia de usuario cuando ocurren problemas.</p>
+
+        <h2>🔄 Configuración de proxy_pass</h2>
+        <p>Usar la directiva proxy_pass permite redirigir las solicitudes a un servidor backend, lo cual es útil para
+            aplicaciones web complejas.</p>
+
+        <div class="quote">
+            "El hombre es una cuerda tendida entre el animal y el superhombre, una cuerda sobre un abismo." <br> -
+            Friedrich Nietzsche
+        </div>
+
+        <div class="footer">
+            &copy; 2025 Configuración Avanzada de Nginx | Todos los derechos reservados.
+        </div>
+    </div>
+
+</body>
+
+</html>
