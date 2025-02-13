@@ -1,4 +1,7 @@
 # Guía Completa para Crear un Contenedor de Oracle Database con Docker
+## Requisitos
+- Docker instalado en tu sistema, funcional.
+- Cuenta en Oracle Cloud
 
 ## 1️⃣ Crear una Cuenta en Oracle Cloud
 
@@ -10,11 +13,11 @@ Para descargar la imagen de Oracle Database, necesitas una cuenta en Oracle Cont
 4. Verifica tu cuenta a través del correo electrónico recibido.
 
 ## 2️⃣ Crear la carpeta del Proyecto
-Crear una carpeta en el escritorio, la cual contendra los contenedores que se utilizaran, la misma carpeta ejecutar o abrir con terminal y dentro de esta carpeta en terminal ejecutar los siguientes pasos.
+Crear una carpeta en el escritorio, la cual contendra los contenedores que se utilizaran para el proyecto (Practica), la misma carpeta abrir con `terminal` y dentro de esta carpeta ejecutar los siguientes pasos.
 
-## 3️⃣ Iniciar Sesión en el Registro de Oracle
+## 3️⃣ Iniciar Sesión en el Registro de Oracle desde el terminal
 
-Antes de descargar la imagen de Oracle Database, necesitas iniciar sesión en Docker con tus credenciales de Oracle:
+Antes de descargar la imagen de Oracle Database, necesitas abrir `Docker Desktop` y luego iniciar sesión en Docker desde el `terminal` donde se ecuentra el proyecto con tus credenciales de Oracle:
 
 ```sh
 docker login container-registry.oracle.com
@@ -23,11 +26,11 @@ docker login container-registry.oracle.com
 Introduce tu usuario y contraseña de Oracle cuando te lo solicite.
 
 ## 4️⃣ Crear un Archivo docker-compose.yml
-En el terminal donde se encuentra el proyecto ejecutar el siguiente comando:
+En el `terminal` donde se encuentra el proyecto ejecutar el siguiente comando:
 ```sh
 code .
 ```
-Este comando abrira el editor de 'VS CODE', una vez en vs code crear un archivo llamado docker-compose.yml y agregar el siguiente contenido:
+Este comando abrira el editor de `VS CODE`, una vez en vs code crear un archivo llamado `docker-compose.yml` y agregar el siguiente contenido:
 ```yaml
   services:
 
@@ -67,23 +70,23 @@ Este comando abrira el editor de 'VS CODE', una vez en vs code crear un archivo 
     driver: bridge
 ```
 ## 5️⃣ Crear un Archivo .env para Variables de Entorno
-Crea un archivo .env en la misma carpeta del proyecto,
+Crea un archivo `.env` en la misma carpeta del proyecto,
 dentro del archivo añadir la siguiente línea:
 
 ```sh
 ORACLE_PWD=tu_contraseña_segura
 ```
 ## 6️⃣ Iniciar los Contenedores
-Ejecuta el siguiente comando en el terminal donde se encuentra el proyecto para levantar los servicios:
+Ejecuta el siguiente comando en el `terminal` del proyecto para levantar los servicios definidos en el archivo `docker-compose.yml`:
 ```sh
 docker-compose up -d
 ```
-Para verificar que los contenedores están corriendo:
+Para verificar que los contenedores están corriendo ejecutar:
 ```sh
 docker ps
 ```
 # Acceder a la basee de datos directamente desde el contenedor:
-Ejecutar el siguiente comando desde el terminal:
+Ejecutar el siguiente comando desde el `terminal`:
 ```sh
 docker exec -it oracle_db sqlplus sys/MiSuperClaveSegura as sysdba
 ```
@@ -103,7 +106,7 @@ Verás algo como esto:
 El PDB que nos interesa aquí es ORCLPDB1.
 
 ## 2️⃣ Conectarse al Pluggable Database (PDB)
-Ejecuta este comando en SQL*Plus:
+Ejecuta este comando en SQL*Plus dentro el contenedor:
 ```sh
 ALTER SESSION SET CONTAINER = ORCLPDB1;
 ```
@@ -115,14 +118,14 @@ GRANT CONNECT, RESOURCE TO user;
 ALTER USER user QUOTA UNLIMITED ON USERS;
 ```
 ## 4️⃣ Conectarse con el nuevo usuario
-Sal de SQL*Plus (contenedor) con EXIT; luego conéctate con:
+Sal de SQL*Plus (contenedor) con EXIT; luego ejecuta el siguiente comando en el `terminal` para acceder a la base de datos con el nuevo usuario creado:
 ```sh
 docker exec -it oracle_db sqlplus user/password@ORCLPDB1
 ```
 
 # Crear una tabla en la base de datos dentro el contenedor
 ## 1️⃣Crear una tabla:
-Para crear una tabla en Oracle, usa el siguiente comando SQL. Asegúrate de estar en el esquema correcto (usuario) donde quieres crear la tabla.
+Para crear una tabla en Oracle, usa el siguiente comando SQL. Asegúrate de estar en el esquema correcto `usuario` donde quieres crear la tabla.
 
 ```sql
 CREATE TABLE productos (
@@ -155,12 +158,12 @@ SELECT table_name FROM user_tables;
 ```
 
 ## 4️⃣Ver el contenido de una tabla:
-Para ver el contenido de la tabla, puedes hacer una consulta SELECT como esta:
+Para ver el contenido de la tabla, puedes hacer una consulta `SELECT` como esta:
 
 ```sql
 SELECT * FROM productos;
 ```
-Esto te mostrará todos los registros en la tabla productos.
+Esto te mostrará todos los registros en la tabla `productos`.
 
 ## 5️⃣Salir de SQL*Plus y del contenedor:
 Para salir de SQL*Plus:
@@ -173,7 +176,7 @@ Para salir del contenedor Docker:
 ```bash
 exit
 ```
-Con estos pasos podrás crear tu tabla, llenarla con datos y hacer consultas, todo dentro de un contenedor Docker con Oracle Database.
+Con estos pasos podrás crear tu tabla, llenarla con datos y hacer consultas, todo dentro de un `contenedor Docker` con Oracle Database.
 
 # Acceder a Oracle Database desde un entorno grafico con (Oracle SQL Developer Extension for VSCode)
 
