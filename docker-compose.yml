@@ -12,29 +12,31 @@ services:
     volumes:
       - ./index.html:/usr/share/nginx/html/index.html
     networks:
-      - app_network  # Se une a la red personalizada
+      - app_network # Se une a la red personalizada
 
   oracle:
     image: container-registry.oracle.com/database/enterprise:latest
     container_name: oracle_db
-    restart: always
+    restart: unless-stopped
     ports:
-      - "1521:1521"  # Puerto de Oracle para conexiones SQL*Net
-      - "5500:5500"  # Puerto de Oracle EM Express
+      - "1521:1521" # Puerto de Oracle para conexiones SQL*Net
+      - "5500:5500" # Puerto de Oracle EM Express
     environment:
       - ORACLE_SID=ORCLCDB
       - ORACLE_PDB=ORCLPDB1 #Nombre del servicio
-      - ORACLE_PWD=${ORACLE_PWD}  # Se usa un archivo .env para seguridad
+      - ORACLE_PWD=${ORACLE_PWD} # Se usa un archivo .env para seguridad
       - ORACLE_CHARACTERSET=AL32UTF8
     volumes:
       - oracle_data:/opt/oracle/oradata
     networks:
-      - app_network  # Se une a la red personalizada
+      - app_network # Se une a la red personalizada
 
 volumes:
   oracle_data:
-  nginx_data:  # Agregamos un volumen para posibles archivos de Nginx
+  nginx_data:
+    # Agregamos un volumen para posibles archivos de Nginx
 
 networks:
-  app_network:  # Red para comunicación entre servicios
+  app_network:
+    # Red para comunicación entre servicios
     driver: bridge

@@ -14,7 +14,7 @@ Para descargar la imagen de Oracle Database, necesitas una cuenta en Oracle Cont
 6. En el buscador de oracle ingresa `database` y en la parte final selecciona `enterprise`
 ![](./imagenes/img1.jpeg)
 7. Luego en la parte derecha presiona `continue`, esto te llevara a los `terminos y condiciones`.
-![](./imagenes/img2.jpeg)
+![](./imagenes/img2.jpg)
 
 8. Aceptar los terminos y condiciones para poder usar las imagenes de Oracle.
 
